@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="AI-powered Cat vs Dog image classifier using deep learning CNN. Upload any photo and get instant predictions!"/>
+  <title>PawsAI — Cat vs Dog Classifier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{% static 'classifier/style.css' %}"/>
+</head>
+<body>
+<!-- Animated background particles -->
+<div class="bg-particles" id="bgParticles"></div>
+<!-- Floating paw prints -->
+<div class="paw-container" id="pawContainer"></div>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">🐾</span>
+      <span class="logo-text">Paws<span class="logo-ai">AI</span></span>
+    </div>
+    <div class="header-badge">
+      <span class="badge-dot"></span>
+      CNN Powered
+    </div>
+  </div>
+</header>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">✨ Deep Learning Classifier</div>
+    <h1 class="hero-title">
+      Is it a <span class="gradient-cat">Cat</span><br/>or a <span class="gradient-dog">Dog</span>?
+    </h1>
+    <p class="hero-subtitle">
+      Upload any photo and our CNN model will instantly tell you — with confidence scores!
+    </p>
+  </div>
+</section>
+<!-- MAIN CONTENT -->
+<main class="main-container">
+  <!-- UPLOAD CARD -->
+  <div class="glass-card upload-card" id="uploadCard">
+    <div class="upload-zone" id="dropZone">
+      <input type="file" id="imageInput" accept="image/*" hidden/>
+      <div class="upload-idle" id="uploadIdle">
+        <div class="upload-icon-wrap">
+          <div class="upload-icon">📸</div>
+          <div class="upload-ring"></div>
+        </div>
+        <h3>Drop your image here</h3>
+        <p>or click to browse files</p>
+        <span class="upload-hint">Supports JPG, PNG, WEBP</span>
+      </div>
+      <div class="upload-preview" id="uploadPreview" style="display:none;">
+        <img id="previewImage" src="" alt="Preview" class="preview-img"/>
+        <div class="preview-overlay">
+          <button class="change-btn" id="changeBtn">🔄 Change Image</button>
+        </div>
+      </div>
+    </div>
+    <button class="predict-btn" id="predictBtn" disabled>
+      <span class="btn-text">Analyze Image</span>
+      <span class="btn-icon">🔍</span>
+      <div class="btn-loader" id="btnLoader" style="display:none;"></div>
+    </button>
+  </div>
+  <!-- RESULT CARD -->
+  <div class="glass-card result-card" id="resultCard" style="display:none;">
+    <div class="result-header">
+      <span class="result-emoji" id="resultEmoji"></span>
+      <div class="result-info">
+        <div class="result-label" id="resultLabel"></div>
+        <div class="result-confidence" id="resultConfidence"></div>
+      </div>
+    </div>
+    <div class="confidence-bars">
+      <div class="bar-row">
+        <span class="bar-label">🐱 Cat</span>
+        <div class="bar-track">
+          <div class="bar-fill bar-cat" id="catBar"></div>
+        </div>
+        <span class="bar-pct" id="catPct">0%</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">🐶 Dog</span>
+        <div class="bar-track">
+          <div class="bar-fill bar-dog" id="dogBar"></div>
+        </div>
+        <span class="bar-pct" id="dogPct">0%</span>
+      </div>
+    </div>
+    <div class="result-fun" id="resultFun"></div>
+    <button class="try-again-btn" id="tryAgainBtn">Try Another Image 🔁</button>
+  </div>
+  <!-- ERROR CARD -->
+  <div class="glass-card error-card" id="errorCard" style="display:none;">
+    <div class="error-icon">⚠️</div>
+    <div class="error-msg" id="errorMsg"></div>
+    <button class="try-again-btn" id="errorRetryBtn">Try Again</button>
+  </div>
+  <!-- HISTORY SECTION -->
+  <div class="history-section" id="historySection">
+    <div class="history-header">
+      <h2 class="history-title">🕒 Recent Predictions</h2>
+      <button class="clear-btn" id="clearBtn">Clear All</button>
+    </div>
+    <div class="history-grid" id="historyGrid">
+      {% for item in history %}
+      <div class="history-item">
+        <img src="{{ item.img_src }}" alt="{{ item.label }}" class="history-img"/>
+        <div class="history-overlay">
+          <span class="history-emoji">{{ item.emoji }}</span>
+          <span class="history-label">{{ item.label }}</span>
+          <span class="history-conf">{{ item.confidence }}%</span>
+        </div>
+      </div>
+      {% empty %}
+      <div class="history-empty" id="historyEmpty">
+        <span>📭</span>
+        <p>No predictions yet. Upload an image to get started!</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+<!-- FOOTER -->
+<footer class="footer">
+  <p>Built with ❤️ using Django + PyTorch CNN &nbsp;|&nbsp; <span class="footer-paw">🐾</span> PawsAI</p>
+</footer>
+<script src="{% static 'classifier/app.js' %}"></script>
+</body>
+</html>

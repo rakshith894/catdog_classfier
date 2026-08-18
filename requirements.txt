@@ -1,0 +1,9 @@
+Django>=4.2
+torch
+torchvision
+Pillow>=9.5
+numpy>=1.24
+gunicorn
+whitenoise[brotli]
+dj-database-url
+psycopg2-binary
