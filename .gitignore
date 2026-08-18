@@ -18,9 +18,9 @@ dist/
 *.sqlite3
 *.db
 
-# Model and large binary files (keep out of repo or use Git LFS)
-catdog_model.pth
-*.pth
+# Model and large binary files (tracked with Git LFS)
+# catdog_model.pth
+# *.pth
 
 # Editor / IDE
 .vscode/
